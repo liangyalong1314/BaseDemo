@@ -33,7 +33,6 @@ public abstract class BaseVmObserver<T> extends BaseObserver<BaseResponse<T>> {
     }
     @Override
     public void onNext(@NonNull BaseResponse<T> response) {
-        super.onNext(response);
         if (response.isSuccess()) {
             onSuccess(response);
         } else {
