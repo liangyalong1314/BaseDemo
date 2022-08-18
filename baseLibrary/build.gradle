@@ -24,8 +24,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    dataBinding{
-        enabled=true
+    dataBinding {
+        enabled = true
     }
 }
 
@@ -64,7 +64,7 @@ dependencies {
     //RecyclerView适配器库
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7'
     //服务
-    api'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     //application
     api "androidx.lifecycle:lifecycle-process:2.4.0"
     //串口库
@@ -77,4 +77,8 @@ dependencies {
     api 'com.blankj:utilcodex:1.31.0'
     //二维码库
     api 'com.github.jenly1314:zxing-lite:2.2.1'
+    // 相机
+    api 'androidx.camera:camera-lifecycle:1.1.0-rc02'
+    api 'androidx.camera:camera-view:1.1.0-rc02'
+    api "androidx.camera:camera-camera2:1.1.0-rc02"
 }
