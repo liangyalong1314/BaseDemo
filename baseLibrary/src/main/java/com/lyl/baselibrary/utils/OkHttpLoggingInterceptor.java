@@ -32,6 +32,11 @@ public class OkHttpLoggingInterceptor implements Interceptor {
             Buffer buffer = new Buffer();
             requestBody.writeTo(buffer);
             requestString = buffer.readUtf8();
+
+            if (requestString.contains("Content-Type: image/*")){
+                Log.i("TAG", "intercept: "+requestString.indexOf("\n\r\n"));
+                requestString=  requestString.substring(0,requestString.indexOf("\n\r\n"));
+            }
         }
         StringBuffer sb = new StringBuffer();
         sb.append("--> 发起请求：" + request.method() + " " + request.url() + "\n");
