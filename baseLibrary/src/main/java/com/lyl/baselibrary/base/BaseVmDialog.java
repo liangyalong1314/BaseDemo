@@ -66,10 +66,10 @@ public abstract class BaseVmDialog<DB extends ViewDataBinding> extends Dialog im
     @Override
     public void dismiss() {
         super.dismiss();
-        lifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED);
+
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
-
+        lifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED);
     }
 
     @NonNull
