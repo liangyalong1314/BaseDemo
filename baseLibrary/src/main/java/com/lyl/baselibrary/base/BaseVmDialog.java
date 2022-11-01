@@ -13,6 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LifecycleRegistry;
 
 import com.lyl.baselibrary.R;
 
@@ -20,10 +23,10 @@ import com.lyl.baselibrary.R;
  * @Author lyl
  * @Date 2022/05/24
  */
-public abstract class BaseVmDialog<DB extends ViewDataBinding> extends Dialog {
+public abstract class BaseVmDialog<DB extends ViewDataBinding> extends Dialog implements LifecycleOwner {
 
     public DB dataBinding;
-
+    private LifecycleRegistry lifecycleRegistry;
     public BaseVmDialog(@NonNull Context context) {
         super(context, R.style.AppDialog);
     }
@@ -33,7 +36,7 @@ public abstract class BaseVmDialog<DB extends ViewDataBinding> extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+       lifecycleRegistry = new LifecycleRegistry(this);
         dataBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), getLayoutId(), null, false);
 
         setContentView(dataBinding.getRoot());
@@ -51,4 +54,25 @@ public abstract class BaseVmDialog<DB extends ViewDataBinding> extends Dialog {
     protected abstract void initData();
 
 
+    @Override
+    public void show() {
+        super.show();
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START);
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+        lifecycleRegistry.setCurrentState(Lifecycle.State.CREATED);
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
+        lifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED);
+    }
+
+    @NonNull
+    @Override
+    public Lifecycle getLifecycle() {
+        return lifecycleRegistry;
+    }
 }
