@@ -26,6 +26,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.ParameterizedType;
 
+import me.jessyan.autosize.AutoSizeCompat;
+
 public abstract class BaseVmActivity<VM extends BaseViewModel, DB extends ViewDataBinding> extends AppCompatActivity {
 
 
@@ -45,6 +47,7 @@ public abstract class BaseVmActivity<VM extends BaseViewModel, DB extends ViewDa
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setWindowParams();
         super.onCreate(savedInstanceState);
+        AutoSizeCompat.autoConvertDensityOfGlobal(getResources());
         EventBus.getDefault().register(this);
 
         currentActivity = this;
