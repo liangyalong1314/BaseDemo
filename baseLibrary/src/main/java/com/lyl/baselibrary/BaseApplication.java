@@ -19,6 +19,7 @@ public class BaseApplication extends Application {
         super.onCreate();
         context = this;
         SPStaticUtils.setDefaultSPUtils(SPUtils.getInstance());
+        
     }
 
 
