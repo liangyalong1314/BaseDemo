@@ -93,7 +93,7 @@ public class LogCatHelper {
     private void saveToFile(String line) {
         FileWriter fileWriter = null;
         try {
-            File file = new File(dirPath, "log-" +  TimeUtils.getSafeDateFormat("yyyy-MM-dd-HH").format(TimeUtils.getNowDate())+ ".log");
+            File file = new File(dirPath, "log-" +  TimeUtils.getSafeDateFormat("yyyy-MM-dd-HH").format(TimeUtils.getNowDate())+ ".txt");
             if (!file.exists()) {
                 file.createNewFile();
             }
