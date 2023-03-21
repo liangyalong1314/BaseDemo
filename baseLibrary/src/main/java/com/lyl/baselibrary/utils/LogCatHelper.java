@@ -1,13 +1,4 @@
 package com.lyl.baselibrary.utils;
-
-/**
- * @author LiangYaLong
- * 描述:
- * 时间:     2020/6/18
- * 版本:     1.0
- */
-
-
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.TimeUtils;
 
