@@ -74,7 +74,7 @@ dependencies {
     //图片加载库
     api 'com.github.bumptech.glide:glide:4.12.0'
     //控件库
-    api 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.10'
+    api 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.13'
     //工具库
     api 'com.blankj:utilcodex:1.31.0'
     //二维码库
