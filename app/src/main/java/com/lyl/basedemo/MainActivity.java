@@ -48,17 +48,18 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_download).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = ((EditText) findViewById(R.id.et_source)).getText().toString();
-                if (!TextUtils.isEmpty(url)) {
-                    downloadFile(url);
-                }
+//                String url = ((EditText) findViewById(R.id.et_source)).getText().toString();
+//                if (!TextUtils.isEmpty(url)) {
+//                    downloadFile(url);
+//                }
+               new APPDialog(MainActivity.this,"http://vod.fubaorobot.com/deskRobotManagerApk/ea5dea9e-ba07-402f-bac8-e6acabc3f41d.apk", "123").show();
             }
         });
 
         findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RetrofitFactory.cancel(mDownloadTask);
+//                RetrofitFactory.cancel(mDownloadTask);
                 Toast.makeText(MainActivity.this, "停止下载", Toast.LENGTH_SHORT).show();
             }
         });

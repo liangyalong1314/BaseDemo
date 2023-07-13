@@ -29,10 +29,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * 描述：
  **/
 public class RetrofitFactory {
-    private static final int TIME_OUT_SECNOD = 15;
-    private static OkHttpClient.Builder mBuilder;
+    private  final int TIME_OUT_SECNOD = 15;
+    private  OkHttpClient.Builder mBuilder;
 
-    private static Retrofit getDownloadRetrofit(DownloadListener downloadListener) {
+    private  Retrofit getDownloadRetrofit(DownloadListener downloadListener) {
         Interceptor headerInterceptor = new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
@@ -72,20 +72,10 @@ public class RetrofitFactory {
                 .client(mBuilder.build())
                 .build();
     }
-
-    /**
-     * 取消网络请求
-     */
-    public static void cancel(Disposable d) {
-        if (null != d && !d.isDisposed()) {
-            d.dispose();
-        }
-    }
-
     /**
      * 下载文件请求
      */
-    public static void downloadFile(String url, long startPos, DownloadListener downloadListener, Observer<ResponseBody> observer) {
+    public  void downloadFile(String url, long startPos, DownloadListener downloadListener, Observer<ResponseBody> observer) {
         getDownloadRetrofit(downloadListener).create(BaseApi.class).downloadFile("bytes=" + startPos + "-", url)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())

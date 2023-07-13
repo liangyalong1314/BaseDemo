@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.lyl.baselibrary.utils.CommonUtils;
@@ -26,6 +27,7 @@ public class RxNet {
     public static boolean enableLog = true;
 
     public static void download( String url,  String filePath,  DownloadCallback callback) {
+        Log.i("TAG", filePath+": "+filePath);
         if (TextUtils.isEmpty(url) || TextUtils.isEmpty(filePath)) {
             if (null != callback) {
                 callback.onError("url or path empty");
@@ -43,11 +45,12 @@ public class RxNet {
         DownloadListener listener = new DownloadListener() {
             @Override
             public void onStart(ResponseBody responseBody) {
+                Log.i("TAG11", filePath+": "+filePath);
                 saveFile(responseBody, url, filePath, callback);
             }
         };
 
-        RetrofitFactory.downloadFile(url, CommonUtils.getTempFile(url, filePath).length(), listener, new Observer<ResponseBody>() {
+       new  RetrofitFactory().downloadFile(url, CommonUtils.getTempFile(url, filePath).length(), listener, new Observer<ResponseBody>() {
             @Override
             public void onSubscribe(Disposable d) {
                 if (null != callback) {
@@ -76,10 +79,18 @@ public class RxNet {
         });
 
     }
-
+    /**
+     * 取消网络请求
+     */
+    public static void cancel(Disposable d) {
+        if (null != d && !d.isDisposed()) {
+            d.dispose();
+        }
+    }
     private static void saveFile( ResponseBody responseBody, String url,  String filePath,  DownloadCallback callback) {
         boolean downloadSuccss = true;
          File tempFile = CommonUtils.getTempFile(url, filePath);
+        Log.i("TAG", filePath+": "+tempFile.getAbsolutePath());
         try {
             writeFileToDisk(responseBody, tempFile.getAbsolutePath(), callback);
         } catch (Exception e) {
