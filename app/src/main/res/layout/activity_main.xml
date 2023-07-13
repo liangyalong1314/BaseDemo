@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:maxLines="5"
+        android:text="http://vod.fubaorobot.com/deskRobotManagerApk/ea5dea9e-ba07-402f-bac8-e6acabc3f41d.apk"
         />
 
     <ProgressBar

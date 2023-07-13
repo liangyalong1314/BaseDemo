@@ -18,7 +18,7 @@ import okio.Source;
  * 描述：
  **/
 public class DownloadResponseBody extends ResponseBody {
-    private final ResponseBody responseBody;
+    private  ResponseBody responseBody;
     private BufferedSource bufferedSource;
 
     public DownloadResponseBody(ResponseBody responseBody, DownloadListener listener) {

@@ -25,7 +25,7 @@ public class RxNet {
 
     public static boolean enableLog = true;
 
-    public static void download(final String url, final String filePath, final DownloadCallback callback) {
+    public static void download( String url,  String filePath,  DownloadCallback callback) {
         if (TextUtils.isEmpty(url) || TextUtils.isEmpty(filePath)) {
             if (null != callback) {
                 callback.onError("url or path empty");
@@ -56,7 +56,7 @@ public class RxNet {
             }
 
             @Override
-            public void onNext(final ResponseBody responseBody) {
+            public void onNext( ResponseBody responseBody) {
 
             }
 
@@ -77,9 +77,9 @@ public class RxNet {
 
     }
 
-    private static void saveFile(final ResponseBody responseBody, String url, final String filePath, final DownloadCallback callback) {
+    private static void saveFile( ResponseBody responseBody, String url,  String filePath,  DownloadCallback callback) {
         boolean downloadSuccss = true;
-        final File tempFile = CommonUtils.getTempFile(url, filePath);
+         File tempFile = CommonUtils.getTempFile(url, filePath);
         try {
             writeFileToDisk(responseBody, tempFile.getAbsolutePath(), callback);
         } catch (Exception e) {
@@ -88,7 +88,7 @@ public class RxNet {
         }
 
         if (downloadSuccss) {
-            final boolean renameSuccess = tempFile.renameTo(new File(filePath));
+             boolean renameSuccess = tempFile.renameTo(new File(filePath));
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
@@ -101,7 +101,7 @@ public class RxNet {
     }
 
     @SuppressLint("DefaultLocale")
-    private static void writeFileToDisk(ResponseBody responseBody, String filePath, final DownloadCallback callback) throws IOException {
+    private static void writeFileToDisk(ResponseBody responseBody, String filePath,  DownloadCallback callback) throws IOException {
         long totalByte = responseBody.contentLength();
         long downloadByte = 0;
         File file = new File(filePath);
@@ -125,7 +125,7 @@ public class RxNet {
         randomAccessFile.close();
     }
 
-    private static void callbackProgress(final long totalByte, final long downloadByte, final DownloadCallback callback) {
+    private static void callbackProgress( long totalByte,  long downloadByte,  DownloadCallback callback) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @SuppressLint("DefaultLocale")
             @Override
