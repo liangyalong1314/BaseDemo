@@ -1,11 +1,17 @@
 package com.lyl.basedemo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.impl.utils.ContextUtil;
 import androidx.lifecycle.LifecycleOwner;
 
+import android.app.ActivityManager;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -19,6 +25,8 @@ import com.lyl.baselibrary.net.RxNet;
 import com.lyl.tencent_face.manager.FaceManager;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -40,73 +48,49 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        progressBar = findViewById(R.id.pb_progress);
-        tvTotalM = findViewById(R.id.tv_total_m);
-        tvDownloadM = findViewById(R.id.tv_download_m);
-        tvProgress = findViewById(R.id.tv_progress);
 
-        findViewById(R.id.btn_download).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                String url = ((EditText) findViewById(R.id.et_source)).getText().toString();
-//                if (!TextUtils.isEmpty(url)) {
-//                    downloadFile(url);
-//                }
-               new APPDialog(MainActivity.this,"http://vod.fubaorobot.com/deskRobotManagerApk/ea5dea9e-ba07-402f-bac8-e6acabc3f41d.apk", "123").show();
-            }
-        });
-
-        findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                RetrofitFactory.cancel(mDownloadTask);
-                Toast.makeText(MainActivity.this, "停止下载", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
-
-    private void downloadFile(String url) {
-        String path = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "weather.apk";
-        RxNet.download(url, path, new DownloadCallback() {
-            @Override
-            public void onStart(Disposable d) {
-                mDownloadTask = d;
-                LogUtils.d("onStart " + d);
-                Toast.makeText(MainActivity.this, "开始下载", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onProgress(long totalByte, long currentByte, int progress) {
-                LogUtils.d("onProgress " + progress);
-                progressBar.setProgress(progress);
-                tvProgress.setText(progress + "%");
-                tvTotalM.setText(byteFormat(totalByte));
-                tvDownloadM.setText(byteFormat(currentByte));
-            }
-
-            @Override
-            public void onFinish(File file) {
-                LogUtils.d("onFinish " + file.getAbsolutePath());
-                Toast.makeText(MainActivity.this, "下载完成", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onError(String msg) {
-                LogUtils.d("onError " + msg);
-            }
-        });
-    }
-
-    private String byteFormat(long bytes) {
-        BigDecimal fileSize = new BigDecimal(bytes);
-        BigDecimal megabyte = new BigDecimal(1024 * 1024);
-        float returnValue = fileSize.divide(megabyte, 2, BigDecimal.ROUND_UP).floatValue();
-        if (returnValue > 1) {
-            return (returnValue + "MB");
+    /**
+     * 根据包名关闭一个后台应用，正处于前台的应用关不了，带通知栏的服务也属于前台进程，关闭不了
+     * 需要权限KILL_BACKGROUND_PROCESSES
+     * @param context
+     * @param packageName
+     */
+    public static void killApps(Context context, String packageName) {
+        try {
+            ActivityManager manager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+            manager.killBackgroundProcesses(packageName);
+            System.out.println("TimerV kill background: "+packageName+" successful");
+        }catch(Exception ex) {
+            ex.printStackTrace();
+            System.err.println("TimerV kill background: "+packageName+" error!");
         }
-        BigDecimal kilobyte = new BigDecimal(1024);
-        returnValue = fileSize.divide(kilobyte, 2, BigDecimal.ROUND_UP).floatValue();
-        return (returnValue + "KB");
     }
+    private static Process process;
+    /**
+     * 初始化进程
+     */
+    private static void initProcess() {
+        if (process == null)
+            try {
+                process = Runtime.getRuntime().exec("su");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
+    /**
+     * 结束进程
+     */
+    private static void killProcess(String packageName) {
+        OutputStream out = process.getOutputStream();
+        String cmd = "am force-stop " + packageName + " \n";
+        try {
+            out.write(cmd.getBytes());
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

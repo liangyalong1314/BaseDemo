@@ -41,7 +41,6 @@ public class RxNet {
             }
             return;
         }
-        CommonUtils.getTempFile(url, filePath).delete();
         DownloadListener listener = new DownloadListener() {
             @Override
             public void onStart(ResponseBody responseBody) {

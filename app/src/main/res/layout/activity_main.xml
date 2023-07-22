@@ -7,73 +7,9 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/et_source"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:maxLines="5"
-        android:text="http://vod.fubaorobot.com/deskRobotManagerApk/ea5dea9e-ba07-402f-bac8-e6acabc3f41d.apk"
-        />
-
-    <ProgressBar
-        android:id="@+id/pb_progress"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_total_m"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                tools:text="12" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" / "
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/tv_download_m"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/holo_green_light"
-                android:textSize="15sp"
-                tools:text="3.55" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="15sp"
-            tools:text="88%" />
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/btn_download"
-        android:layout_width="960dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="开始下载" />
-
-    <Button
-        android:id="@+id/btn_cancel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="取消/暂停下载" />
+  <TextView
+      android:id="@+id/tv"
+      android:text="自动打卡App启动中"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
 </LinearLayout>
