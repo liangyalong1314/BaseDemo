@@ -41,4 +41,7 @@ public abstract class BaseCheckTask {
      * 开始检测
      */
     public abstract void checkStart();
+    public void clear(){
+
+    }
 }

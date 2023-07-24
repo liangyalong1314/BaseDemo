@@ -19,6 +19,12 @@ import androidx.lifecycle.LifecycleRegistry;
 
 import com.lyl.baselibrary.R;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.observers.DisposableObserver;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 /**
  * @Author lyl
  * @Date 2022/05/24
@@ -66,7 +72,7 @@ public abstract class BaseVmDialog<DB extends ViewDataBinding> extends Dialog im
     @Override
     public void dismiss() {
         super.dismiss();
-
+        removeCompositeDisposable();
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
         lifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED);
@@ -76,5 +82,22 @@ public abstract class BaseVmDialog<DB extends ViewDataBinding> extends Dialog im
     @Override
     public Lifecycle getLifecycle() {
         return lifecycleRegistry;
+    }
+    private CompositeDisposable compositeDisposable;
+
+    public void removeCompositeDisposable() {
+        if (compositeDisposable != null) {
+            compositeDisposable.dispose();
+        }
+    }
+    public void addDisposable(Observable<?> observable, DisposableObserver observer) {
+        if (compositeDisposable == null) {
+            compositeDisposable = new CompositeDisposable();
+        }
+        compositeDisposable.add(
+                observable.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(observer));
+
     }
 }

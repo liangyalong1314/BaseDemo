@@ -22,11 +22,14 @@ public class TaskCheckMgr {
 
     private ArrayList<BaseCheckTask> blockingQueue = new ArrayList<>();
     private int blockingQueueI = 0;
-
     public void addTask(ArrayList<BaseCheckTask> baseCheckTaskList) {
         blockingQueue.addAll(baseCheckTaskList);
     }
-
+    public void clearAll(){
+        for (BaseCheckTask baseCheckTask : blockingQueue) {
+            baseCheckTask.clear();
+        }
+    }
     public void startCheckTask(ICheckTaskCallBack iCheckTaskCallBack) {
         this.iCheckTaskCallBack = iCheckTaskCallBack;
         blockingQueueI = 0;
