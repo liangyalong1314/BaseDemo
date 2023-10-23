@@ -18,7 +18,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  */
 public class BaseApplication extends Application {
 
-    private static BaseApplication context;
+    public static BaseApplication context;
 
     @Override
     public void onCreate() {
