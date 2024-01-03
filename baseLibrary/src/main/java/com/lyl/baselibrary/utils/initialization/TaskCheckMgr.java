@@ -12,6 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class TaskCheckMgr {
     private static TaskCheckMgr instance = new TaskCheckMgr();
     private ICheckTaskCallBack iCheckTaskCallBack;
+    private boolean state=false;
 
     private TaskCheckMgr() {
     }
@@ -33,6 +34,7 @@ public class TaskCheckMgr {
     public void startCheckTask(ICheckTaskCallBack iCheckTaskCallBack) {
         this.iCheckTaskCallBack = iCheckTaskCallBack;
         blockingQueueI = 0;
+        state=true;
         ThreadUtils.getMainHandler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -42,6 +44,9 @@ public class TaskCheckMgr {
     }
 
     private void blockingQueueFor() {
+        if (!state){
+            return;
+        }
         if (blockingQueueI >= blockingQueue.size()) {
             iCheckTaskCallBack.onAllTaskCheckEnd();
             return;
@@ -77,6 +82,6 @@ public class TaskCheckMgr {
 
 
     public void stopCheCkTask() {
-        blockingQueueI = blockingQueue.size();
+        state=false;
     }
 }
